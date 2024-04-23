@@ -1,0 +1,189 @@
+table.jeopardyGameTop {
+  border-collapse: collapse;
+}
+th.topbar{
+  height: 8px;
+  width: 1000px;
+  background-color:#6495ED;
+  border: 1px solid #000000;
+}
+
+table.jeopardyGame {
+  table-layout: fixed;
+  text-wrap: stable;
+  word-wrap: break-word;
+  overflow: hidden;
+  overflow-block: hidden;
+  border-collapse: collapse;
+  max-width: 96%;
+  margin: auto;
+}
+tr {  
+  table-layout: fixed;
+  text-wrap: stable;
+  word-wrap: break-word;
+  overflow: hidden;
+  overflow-block: hidden;
+}
+td {
+  border:3px solid #000000;
+  width: 100px;
+  max-height: 100px;
+  height: 100px;
+  text-wrap: wrap;
+  overflow: hidden;
+  font-size: 24px;
+  letter-spacing: -1px; 
+  cursor: pointer;
+  color:#ddff00;
+  background: -webkit-linear-gradient(0deg, rgb(19, 44, 120), #060ce9); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(0deg, rgb(19, 44, 120), #060ce9); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(0deg, rgb(19, 44, 120), #060ce9); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(0deg, rgb(19, 44, 120), #060ce9);
+  text-shadow: 2px 2px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0);  
+}
+th.jeopardyCategory {
+  background: -webkit-linear-gradient(180deg, rgb(19, 44, 120), #060ce9); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(180deg, rgb(19, 44, 120), #060ce9); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(180deg, rgb(19, 44, 120), #060ce9); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(180deg, rgb(19, 44, 120), #060ce9);
+  border-top: 10px solid #000000;
+  border-left: 3px solid #000000;
+  border-right: 3px solid #000000;
+  border-bottom: 10px solid #000000;
+  height: 40px;
+  letter-spacing: -0.5px;
+  color: white;
+}
+th.first, td.first {
+  border-left: 10px solid #000000;
+}
+th.last, td.last {  
+  border-right: 10px solid #000000;
+}
+td.bottom {
+  border-bottom: 10px solid #000000;
+}
+.jeopardyCategory {
+  font-size: 24px; 
+  width: 15%;
+  max-width: 15%;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  text-transform: uppercase;
+  text-shadow: 2.5px 2.5px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0);  
+}
+#itemProgressionQuestion {
+  background-color: #28a200;
+  background: -webkit-linear-gradient(0deg, #28a200, #28a200); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(0deg, #28a200, #28a200); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(0deg, #28a200, #28a200); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(0deg, #28a200, #28a200);
+}
+h1 {
+  font-size: 64px;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: -5px; 
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0);  
+ color: white;
+ margin: auto;
+}
+input.startGame {  
+  border-width: 5px;
+  border: rgb(119, 255, 0) ridge;
+  border-radius: 100%;
+  padding-top: 21px;
+  padding-bottom: 21px;
+  padding-right: 30px;
+  padding-left: 30px;
+  font-size: 20px;
+  font-family: 'Copse';
+  text-transform: uppercase;
+  color: #adff7a;
+  background-color: #74119c;
+}
+input.startGame:hover {  
+  cursor: pointer;
+  border-color: #28a200;
+  font-weight: 1000;
+  background-color: rgb(149, 149, 149);
+  color:rgb(249, 255, 129);
+  text-shadow: 2px 2px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0);  
+}
+input.restartGame {  
+  border-width: 5px;
+  border-style: ridge;
+  border-radius: 100%;
+  padding: 14x;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 20px;
+  font-family: 'Copse';
+  text-transform: uppercase;
+  color: #adff7a;
+  background-color: #74119c;
+}
+input.restartGame:hover {  
+  border-color: #28a200;
+  font-weight: 1000;
+  background-color: rgb(149, 149, 149);
+  color:rgb(249, 255, 129);
+  text-shadow: 2px 2px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0);  
+}
+input.buttonLoading {  
+  cursor: wait;
+  border-width: 5px;
+  border-style: outset;
+  border-radius: 100%;
+  padding: 14x;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 20px;
+  font-family: 'Copse';
+  text-transform: uppercase;
+  color: #adff7a;
+  border-color: #4f4f4f;
+  font-weight: 1000;
+  background-color: rgb(107, 0, 84);
+  color:rgb(255, 77, 0);
+  text-shadow: 2px 2px 0 rgb(255, 255, 255)
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0), 
+    0px 0px 0 rgb(0, 0, 0);  
+}
+body {
+  text-align: center;
+  background-color: #4169E1;
+  background: -webkit-linear-gradient(-135deg, #4169E1, #6495ED); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(-135deg, #4169E1, #6495ED); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(-135deg, #4169E1, #6495ED); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(-135deg, #4169E1, #6495ED);
+}
+#hiddenPlaceholder {
+  visibility: hidden;
+}
+.spinner {
+  letter-spacing: 2px; 
+  margin-top: 50px;
+  font-size:250px;
+  color: rgb(198, 229, 96);
+  text-shadow: 2px -2px 0 rgb(225, 255, 0), 
+    2px 2px 0 rgb(0, 0, 0), 
+    2px 2px 0 rgb(0, 0, 0), 
+    2px 2px 0 rgb(0, 0, 0);  
+}
