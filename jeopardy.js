@@ -208,7 +208,7 @@ const setupAndStart = async () => {
 
     // further research will be conducted in order to call hideLoadingView() and the fillTable() method,
     // which requires the global table gameDataCategoriesWithClues.
-    setTimeout(hideLoadingView, 100);
+    setTimeout(hideLoadingView, 2000);
 
     //Debugging option for Check
     //console.log(gameDataCategoriesWithClues);
