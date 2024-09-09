@@ -1,50 +1,57 @@
-const publicRithmJeopardyAPI = "https://rithm-jeopardy.herokuapp.com/api/";
+const publicJeopardyAPI = "https://jeo.letz.dev/api/";
 const numberOfCluesPerCategory = 5;
 const numberOfCategories = 6;
 /**
- * Data Format of gameDataCategoriesWithClues
+ * Data Format of gameData
  * Ordered Array of Objects
  * {id, title, clues_count, clues : [numberOfCluesPerCategory]}
  */
-let gameDataCategoriesWithClues = [];
+let gameData = [];
 
 /**
- * Updates the Array gameDataCategoriesWithClues with a shuffled/spliced amount of categories (Category title and ID's) as queried from the API. 
+ * Updates the Array gameData with a shuffled/spliced amount of categories (Category title and ID's) as queried from the API. 
  * @param {Number} amountofCategories - Amount of Categories to query the API for.
  * @return {void} Any exception will be printed in console.
  */
-const getCategoryIds = async (amountofCategories) =>
-    await axios.get(publicRithmJeopardyAPI + "categories", {
+const getCategoryIds = amountofCategories => {
+    return axios.get(publicJeopardyAPI + "categories", {
         headers: { 'Content-Type': 'application/json' },
         params: { count: amountofCategories }
-    }).then(response => {
-        gameDataCategoriesWithClues = _.sampleSize(response.data, numberOfCategories);
-    }).catch(exception => { console.log(exception) });
+    }).then(response => { return _.sampleSize(response.data.categories, numberOfCategories) }
+    ).catch(exception => { console.log(exception) });
+}
 
 /**
- * Updates the Array gameDataCategoriesWithClues with a shuffled/spliced amount of clues (questions and answers) along with the question ID as queried from the API. 
+ * Updates the Array provided with a shuffled/spliced amount of clues (questions and answers) along with the question ID as queried from the API. 
  * @param {Number} categoryId - ID of category queried previously from getCategoryIds.
  * @return {void} Any exception will be printed in console.
  */
-const getCategory = async (categoryId) =>
-    await axios.get(publicRithmJeopardyAPI + "category", {
+const getCategory = categoryId => {
+    // return axios.get(publicJeopardyAPI + "category", {
+    return axios.get(publicJeopardyAPI + "details/" + categoryId, {
         headers: { 'Content-Type': 'application/json' },
-        params: { id: +categoryId }
-    }).then(response => {
-        gameDataCategoriesWithClues.find(currentCategoryIndex => currentCategoryIndex.id === +categoryId)["clues"] = _.sampleSize(
-            response.data.clues.map(cluesDataObject => [cluesDataObject.id, cluesDataObject.question, cluesDataObject.answer]),
-            numberOfCluesPerCategory)
-    }).catch(exception => { console.log(exception) });
-
+        // params: { id: +categoryId }
+    }).then(response => _.sampleSize(
+        response.data.details[+categoryId].clues.map(cluesDataObject =>
+            [cluesDataObject.id, cluesDataObject.question, cluesDataObject.answer]),
+        numberOfCluesPerCategory)
+    ).catch(exception => { console.log(exception) });
+}
 
 /**
  * Updates the DOM to show the game board with Jeopardy Answers/Questions as well as the top divider bar.
  * Data values are also labeled for each element, providing the specific question ID which was saved from the API.
  * Furthermore, additional click event listeners are added per cell in the table for the intended result during gameplay.
- * Additional analysis for the game data can be done with command "console.log(gameDataCategoriesWithClues)".
+ * Additional analysis for the game data can be done with command "console.log(gameData)".
  * @return {void}
  */
 const fillTable = () => {
+    $(".spinner").remove();
+    $("#gameControlStartandRestart").attr({
+        class: "restartGame",
+        value: "restart"
+    });
+
     const game = $("div.gameBoard");
 
     // Top bar styling to implement a style which complements the game board, similar to actual Game Show.
@@ -87,12 +94,12 @@ const fillTable = () => {
             .appendTo($(trCategories))
 
             //Set Text to current Category 
-            .text(gameDataCategoriesWithClues[currentCategoryIndex].title)
+            .text(gameData[currentCategoryIndex].title)
 
             //"data-" Additional Data Labels for Debugging grid
             .attr({
-                "data-Jeopardy-Category-ID": gameDataCategoriesWithClues[currentCategoryIndex].id,
-                "data-Jeopardy-Category-Title": gameDataCategoriesWithClues[currentCategoryIndex].title
+                "data-Jeopardy-Category-ID": gameData[currentCategoryIndex].id,
+                "data-Jeopardy-Category-Title": gameData[currentCategoryIndex].title
             })
     );
 
@@ -101,7 +108,7 @@ const fillTable = () => {
         const trRow = $("<tr>").appendTo($(gameGridBoard));
         const thRowQuestions = [];
 
-        //StylingAdd CSS Border padding class
+        //Styling - Add CSS Border padding class
         do
             if (!thRowQuestions.length)
                 //CSS style to retain Left Border Width
@@ -112,11 +119,12 @@ const fillTable = () => {
             else
                 thRowQuestions.push($("<td>"));
         while (thRowQuestions.length !== numberOfCluesPerCategory + 1);
+
         //Variables used:
-        //clueIndex = Current Index to access Number of Clues Index Array within the gameDataCategoriesWithClues Object.
+        //clueIndex = Current Index to access Number of Clues Index Array within the gameData Object.
         //elementIndex = Element Object on currently selected row
         //columnIndex = Current Index of column on row
-        thRowQuestions.forEach((elementIndex, columnIndex) =>
+        thRowQuestions.forEach((elementIndex, columnIndex) => {
             $(elementIndex).appendTo($(trRow))
 
                 //CSS style to retain Bottom Border
@@ -124,23 +132,23 @@ const fillTable = () => {
 
                 //Extra information (for debugging)
                 .attr({
-                    "data-Jeopardy-Question-ID": gameDataCategoriesWithClues[columnIndex].clues[clueIndex][0],
-                    "data-Jeopardy-Question-Title": gameDataCategoriesWithClues[columnIndex].title
+                    "data-Jeopardy-Question-ID": gameData[columnIndex].clues[clueIndex][0],
+                    "data-Jeopardy-Question-Title": gameData[columnIndex].title
                 })
 
                 //Question Mark Icon from Font Awesome
                 .append($("<i>").addClass("fa-solid fa-question fa-2xl"))
 
                 //First Click - Provide 'Answer'
-                .on("click", () => $(elementIndex).html(gameDataCategoriesWithClues[columnIndex].clues[clueIndex][1])
+                .on("click", () => $(elementIndex).html(gameData[columnIndex].clues[clueIndex][1])
 
                     //Second Click - Provide 'Question'
                     .on("click", () => $(elementIndex)
                         .attr({ "id": "itemProgressionQuestion" })
-                        .html(gameDataCategoriesWithClues[columnIndex].clues[clueIndex][2])
+                        .html(gameData[columnIndex].clues[clueIndex][2])
                     )
                 )
-        );
+        });
     }
 
     //append the game object to the main div.
@@ -170,50 +178,24 @@ const showLoadingView = () => {
 }
 
 /**
- * Removes the spinner
- * Updates the Game control button to show that the game can now be restarted
- * DOM is now modified to fill the game board with accessed data.
- * @return {void}
- */
-const hideLoadingView = () => {
-    $(".spinner").remove();
-    $("#gameControlStartandRestart").attr({
-        class: "restartGame",
-        value: "restart"
-    });
-    fillTable();
-};
-
-/**
  * Asynchronously grab all game data and shuffle/slice the necessary categories
  * Create another async thread to call hideLoadingView, which then populates the game with all retrieved data.
  * @return {void}
  */
-const setupAndStart = async () => {
+const setupAndStart = () => {
     //14 is currently the maximum amount of categories which can be supplied by the API.
     //Lodash will shuffle then splice it into amount set by numberOfCategories.
-    await getCategoryIds(14).then(() =>
-        gameDataCategoriesWithClues.forEach(async categoryId =>
-            getCategory(categoryId.id)
-        )
-    );
-    //hideLoadingView();    
-
-    //There have been promise errors from the following:
-    // Line 94, when attempting to append ID and title to the element.
-    // This bug seems to be a javascript async/await bug and has only been resolved with the method below
-    // vvvvvvvvvvvvvvv
-    //setTimeout(hideLoadingView, 25);
-    // to account for possible async errors I have increased from 25ms to 100ms.
-
-    // further research will be conducted in order to call hideLoadingView() and the fillTable() method,
-    // which requires the global table gameDataCategoriesWithClues.
-
-    //additional time to account for mobile devices latency and low power devices
-    setTimeout(hideLoadingView, 2000);
-
-    //Debugging option for Check
-    //console.log(gameDataCategoriesWithClues);
+    getCategoryIds(14).then(response => {
+        gameData = response;
+        let waitArray = [];
+        for (let i = 0; i !== response.length; i++) {
+            waitArray.push(getCategory(gameData[i].id)
+                .then(cluesData => {
+                    gameData[i].clues = cluesData;
+                }));
+        }
+        Promise.all(waitArray).then(() => fillTable());
+    });
 }
 
 /**
